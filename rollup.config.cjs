@@ -3,12 +3,14 @@ const { terser } = require('rollup-plugin-terser');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const json = require('@rollup/plugin-json');
-const dts = require('rollup-plugin-dts').default
+const dts = require('rollup-plugin-dts').default;
 const analyze = require('rollup-plugin-analyzer');
 
-const isProduction = process.env.NODE_ENV === 'production';
+const getEnvironmentConfig = () => ({
+    isProduction: process.env.NODE_ENV === 'production'
+});
 
-const external = [
+const getExternalDependencies = () => [
     'inversify',
     'reflect-metadata',
     'tslib',
@@ -18,10 +20,11 @@ const external = [
     'querystring'
 ];
 
-const plugins = [
+const createPlugins = (isProduction) => [
     nodeResolve({
         preferBuiltins: true,
-        browser: true
+        browser: true,
+        extensions: ['.ts', '.js', '.json']
     }),
     commonjs({
         include: 'node_modules/**',
@@ -33,7 +36,9 @@ const plugins = [
         declaration: true,
         declarationDir: './dist/types',
         module: 'esnext',
-        sourceMap: true
+        sourceMap: true,
+        include: ['src/**/*.ts'],
+        exclude: ['node_modules', 'dist']
     }),
     isProduction && terser({
         compress: {
@@ -71,11 +76,8 @@ const createOutputConfig = (format, suffix) => ({
     }
 });
 
-const handleWarnings = (warning, warn) => {
-    const ignoredWarnings = [
-        'THIS_IS_UNDEFINED',
-        'CIRCULAR_DEPENDENCY'
-    ];
+const createWarningHandler = () => (warning, warn) => {
+    const ignoredWarnings = ['THIS_IS_UNDEFINED', 'CIRCULAR_DEPENDENCY'];
     
     if (warning.code && ignoredWarnings.includes(warning.code)) {
         return;
@@ -89,26 +91,35 @@ const handleWarnings = (warning, warn) => {
     warn(warning);
 };
 
-module.exports = [
-    {
-        input: 'src/index.ts',
-        output: [
-            createOutputConfig('cjs', 'cjs'),
-            createOutputConfig('esm', 'esm'),
-            createOutputConfig('umd', 'umd')
-        ],
-        plugins,
-        external,
-        onwarn: handleWarnings
+const createMainBundle = (plugins, external, warningHandler) => ({
+    input: 'src/index.ts',
+    output: [
+        createOutputConfig('cjs', 'cjs'),
+        createOutputConfig('esm', 'esm'),
+        createOutputConfig('umd', 'umd')
+    ],
+    plugins,
+    external,
+    onwarn: warningHandler
+});
+
+const createTypeDefinitions = (external, warningHandler) => ({
+    input: 'src/types/core.ts',
+    output: {
+        file: 'dist/index.d.ts',
+        format: 'es'
     },
-    {
-        input: 'src/types/core.ts',
-        output: {
-            file: 'dist/index.d.ts',
-            format: 'es'
-        },
-        plugins: [dts()],
-        external,
-        onwarn: handleWarnings
-    }
+    plugins: [dts()],
+    external,
+    onwarn: warningHandler
+});
+
+const { isProduction } = getEnvironmentConfig();
+const external = getExternalDependencies();
+const plugins = createPlugins(isProduction);
+const warningHandler = createWarningHandler();
+
+module.exports = [
+    createMainBundle(plugins, external, warningHandler),
+    createTypeDefinitions(external, warningHandler)
 ];
