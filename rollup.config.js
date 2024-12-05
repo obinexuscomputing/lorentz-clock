@@ -113,7 +113,8 @@ export default defineConfig([
             file: 'dist/index.d.ts',
             format: 'es'
         },
-        plugins: [dts()],
-        external
+        plugins,
+        external,
+      
     }
 ]);
