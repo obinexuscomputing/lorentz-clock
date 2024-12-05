@@ -1,6 +1,6 @@
 import { calculateLorentzFactor } from './lorentz';
 import { calculateTimeDilation } from './time-dilation';
-import { Coordinates, RelativeVelocity, TimeInterval } from '@types/';
+import { Coordinates, RelativeVelocity, TimeInterval } from '../types/core';
 import { SPEED_OF_LIGHT } from './lorentz';
 
 /**

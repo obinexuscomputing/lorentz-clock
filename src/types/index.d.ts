@@ -7,6 +7,7 @@ import { GeolocationOptions } from './geolocation';
 
 // Re-export all types from core
 export * from './core';
+export * from './synchronization';
 
 // Re-export all types from geolocation
 export * from './geolocation';
