@@ -3,7 +3,7 @@ const { terser } = require('rollup-plugin-terser');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const commonjs = require('@rollup/plugin-commonjs');
 const json = require('@rollup/plugin-json');
-const dts = require('rollup-plugin-dts');
+const dts = require('rollup-plugin-dts').default
 const analyze = require('rollup-plugin-analyzer');
 
 const isProduction = process.env.NODE_ENV === 'production';
