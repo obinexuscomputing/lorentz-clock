@@ -82,12 +82,10 @@ const createWarningHandler = () => (warning, warn) => {
     if (warning.code && ignoredWarnings.includes(warning.code)) {
         return;
     }
-
     if (warning.plugin === 'typescript') {
         console.error('TypeScript Error:', warning.message);
         return;
     }
-
     warn(warning);
 };
 
