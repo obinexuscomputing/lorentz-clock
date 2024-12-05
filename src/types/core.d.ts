@@ -23,44 +23,44 @@ export type TimeInterval = number;
  * Three-dimensional spatial coordinates
  */
 export interface Coordinates {
-  x: number;
-  y: number;
-  z: number;
+    x: number;
+    y: number;
+    z: number;
 }
 
 /**
  * Represents a reference frame with position and velocity
  */
 export interface ReferenceFrame {
-  position: Coordinates;
-  velocity: RelativeVelocity;
-  orientation?: Orientation;
+    position: Coordinates;
+    velocity: RelativeVelocity;
+    orientation?: Orientation;
 }
 
 /**
  * Spatial orientation in three dimensions using Euler angles
  */
 export interface Orientation {
-  pitch: number;  // Rotation around X-axis in radians
-  yaw: number;    // Rotation around Y-axis in radians
-  roll: number;   // Rotation around Z-axis in radians
+    pitch: number;  // Rotation around X-axis in radians
+    yaw: number;    // Rotation around Y-axis in radians
+    roll: number;   // Rotation around Z-axis in radians
 }
 
 /**
  * Result of a relativistic transformation
  */
 export interface TransformationResult {
-  time: TimeInterval;
-  position: Coordinates;
-  properTime: TimeInterval;
-  lorentzFactor: LorentzFactor;
+    time: TimeInterval;
+    position: Coordinates;
+    properTime: TimeInterval;
+    lorentzFactor: LorentzFactor;
 }
 
 /**
  * Configuration options for relativistic calculations
  */
 export interface CalculationOptions {
-  precision?: number;        // Number of decimal places for calculations
-  usePreciseFormulas?: boolean;  // Use more computationally intensive but precise formulas
-  throwOnInvalid?: boolean; // Whether to throw errors on invalid inputs
+    precision?: number;        // Number of decimal places for calculations
+    usePreciseFormulas?: boolean;  // Use more computationally intensive but precise formulas
+    throwOnInvalid?: boolean; // Whether to throw errors on invalid inputs
 }

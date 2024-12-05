@@ -1,5 +1,6 @@
 import 'reflect-metadata';
-import { Container } from 'inversify';
+import type { interfaces } from 'inversify';
+import { Container as InversifyContainer } from 'inversify';
 import { TYPES } from '../types/injection-tokens';
 
 // Import service interfaces
@@ -13,11 +14,11 @@ import { LocationTransformService } from '../geolocation/location-transform';
 import { GeoUtilsService } from '../geolocation/geo-utils';
 
 export class ContainerProvider {
-    private static instance: Container;
+    private static instance: InversifyContainer;
 
-    public static getInstance(): Container {
+    public static getInstance(): InversifyContainer {
         if (!ContainerProvider.instance) {
-            const container = new Container({ defaultScope: "Singleton" });
+            const container = new InversifyContainer({ defaultScope: "Singleton" });
             
             // Register core services
             container.bind<IGeolocationService>(TYPES.GeolocationService)
@@ -44,3 +45,5 @@ export class ContainerProvider {
 }
 
 export const container = ContainerProvider.getInstance();
+
+export type Container = InversifyContainer;
