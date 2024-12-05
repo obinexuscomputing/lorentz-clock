@@ -1,28 +1,18 @@
-// Core exports
-export * from './core/lorentz';
-export * from './core/time-dilation';
-export * from './core/synchronization';
+import 'reflect-metadata';
 
-// Geolocation exports
-export * from './geolocation/api';
-export * from './geolocation/location-transform';
-export * from './geolocation/geo-utils';
-export * from './geolocation/errors';
+// Core functionality exports
+export { SPEED_OF_LIGHT, calculateLorentzFactor, isValidVelocity } from './core/lorentz';
+export { calculateTimeDilation, calculateProperTime, calculateTimeDifference } from './core/time-dilation';
+export { calculateSimultaneousEvents, synchronizeClocks } from './core/synchronization';
+export { container, ContainerProvider } from './core/container';
+
+// Geolocation functionality exports
+export { GeolocationService, type IGeolocationService } from './geolocation/api';
+export { LocationTransformService, type ILocationTransformService } from './geolocation/location-transform';
+export { GeoUtilsService, type IGeoUtilsService } from './geolocation/geo-utils';
+export { GeolocationServiceError } from './geolocation/errors';
 
 // Type exports
-export * from './types/core';
-export * from './types/geolocation';
-
-// Container setup
-import { Container } from 'inversify';
-import { TYPES } from './types/injection-tokens';
-import { GeolocationService, IGeolocationService } from './geolocation/api';
-import { LocationTransformService, ILocationTransformService } from './geolocation/location-transform';
-import { GeoUtilsService, IGeoUtilsService } from './geolocation/geo-utils';
-
-export const container = new Container();
-
-// Register services
-container.bind<IGeolocationService>(TYPES.GeolocationService).to(GeolocationService);
-container.bind<ILocationTransformService>(TYPES.LocationTransformService).to(LocationTransformService);
-container.bind<IGeoUtilsService>(TYPES.GeoUtilsService).to(GeoUtilsService);
+export * from './types/core.d';
+export * from './types/geolocation.d';
+export { TYPES } from './types/injection-tokens';
