@@ -9,6 +9,25 @@ import { defineConfig } from 'rollup';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
+const handleWarnings = (warning: any, warn: any): void => {
+  // Ignore certain warnings
+  const ignoredWarnings = [
+      'THIS_IS_UNDEFINED',
+      'CIRCULAR_DEPENDENCY'
+  ];
+  
+  if (warning.code && ignoredWarnings.includes(warning.code)) {
+      return;
+  }
+
+  // Handle TypeScript specific warnings
+  if (warning.plugin === 'typescript') {
+      console.error('TypeScript Error:', warning.message);
+      return;
+  }
+
+  warn(warning);
+};
 const external = [
     // External dependencies
     'inversify',
@@ -53,7 +72,8 @@ const plugins = [
         summaryOnly: true,
         limit: 10,
         filterSizes: 1024
-    })
+    }),
+    dts()
 ];
 
 const createOutputConfig = (format, suffix) => ({
@@ -85,10 +105,7 @@ export default defineConfig([
         ],
         plugins,
         external,
-        onwarn(warning, warn) {
-            if (warning.code === 'THIS_IS_UNDEFINED') return;
-            warn(warning);
-        }
+        onwarn: handleWarnings
     },
     {
         input: 'src/index.ts',
