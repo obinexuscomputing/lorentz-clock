@@ -1,1 +1,12 @@
-/node_modules
+dist/
+node_modules/
+coverage/
+.env
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.swp
+*.swo
+.npm
+.yarn-integrity
