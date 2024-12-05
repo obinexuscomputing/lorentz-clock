@@ -1,40 +1,17 @@
-import typescript from '@rollup/plugin-typescript';
-import { terser } from 'rollup-plugin-terser';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import json from '@rollup/plugin-json';
-import dts from 'rollup-plugin-dts';
-import analyze from 'rollup-plugin-analyzer';
-import { defineConfig } from 'rollup';
+const typescript = require('@rollup/plugin-typescript');
+const { terser } = require('rollup-plugin-terser');
+const resolve = require('@rollup/plugin-node-resolve');
+const commonjs = require('@rollup/plugin-commonjs');
+const json = require('@rollup/plugin-json');
+const dts = require('rollup-plugin-dts');
+const analyze = require('rollup-plugin-analyzer');
 
 const isProduction = process.env.NODE_ENV === 'production';
 
-const handleWarnings = (warning: any, warn: any): void => {
-  // Ignore certain warnings
-  const ignoredWarnings = [
-      'THIS_IS_UNDEFINED',
-      'CIRCULAR_DEPENDENCY'
-  ];
-  
-  if (warning.code && ignoredWarnings.includes(warning.code)) {
-      return;
-  }
-
-  // Handle TypeScript specific warnings
-  if (warning.plugin === 'typescript') {
-      console.error('TypeScript Error:', warning.message);
-      return;
-  }
-
-  warn(warning);
-};
 const external = [
-    // External dependencies
     'inversify',
     'reflect-metadata',
     'tslib',
-    
-    // Node.js built-ins
     'http',
     'https',
     'url',
@@ -72,9 +49,8 @@ const plugins = [
         summaryOnly: true,
         limit: 10,
         filterSizes: 1024
-    }),
-    dts()
-];
+    })
+].filter(Boolean);
 
 const createOutputConfig = (format, suffix) => ({
     file: `dist/lorentz-clock.${suffix}.js`,
@@ -95,7 +71,25 @@ const createOutputConfig = (format, suffix) => ({
     }
 });
 
-export default defineConfig([
+const handleWarnings = (warning, warn) => {
+    const ignoredWarnings = [
+        'THIS_IS_UNDEFINED',
+        'CIRCULAR_DEPENDENCY'
+    ];
+    
+    if (warning.code && ignoredWarnings.includes(warning.code)) {
+        return;
+    }
+
+    if (warning.plugin === 'typescript') {
+        console.error('TypeScript Error:', warning.message);
+        return;
+    }
+
+    warn(warning);
+};
+
+module.exports = [
     {
         input: 'src/index.ts',
         output: [
@@ -108,13 +102,13 @@ export default defineConfig([
         onwarn: handleWarnings
     },
     {
-        input: 'src/index.ts',
+        input: 'src/types/core.ts',
         output: {
             file: 'dist/index.d.ts',
             format: 'es'
         },
-        plugins,
+        plugins: [dts()],
         external,
-      
+        onwarn: handleWarnings
     }
-]);
+];
