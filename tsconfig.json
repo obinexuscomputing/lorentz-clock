@@ -23,6 +23,6 @@
       "@types/*": ["types/*"]
     }
   },
-  "include": ["src/**/*", "rollup.config.js"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist", "tests"]
 }
