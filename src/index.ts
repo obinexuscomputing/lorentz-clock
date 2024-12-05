@@ -13,6 +13,6 @@ export { GeoUtilsService, type IGeoUtilsService } from './geolocation/geo-utils'
 export { GeolocationServiceError } from './geolocation/errors';
 
 // Type exports
-export * from './types/core.d';
-export * from './types/geolocation.d';
+export * from './types/core';
+export * from './types/geolocation';
 export { TYPES } from './types/injection-tokens';
