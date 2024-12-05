@@ -1,11 +1,13 @@
 import { 
     GeographicCoordinates, 
+    GeolocationErrorType, 
     GeolocationOptions, 
     GeolocationTransformResult 
   } from '../types/geolocation';
   import { GeolocationServiceError } from './errors';
   import { injectable, inject } from 'inversify';
   import { TYPES } from '../types/injection-tokens';
+import { ILocationTransformService } from './location-transform';
   
   export interface IGeolocationService {
     getCurrentPosition(options?: GeolocationOptions): Promise<GeolocationTransformResult>;

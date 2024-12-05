@@ -11,6 +11,9 @@ export * from './core';
 // Re-export all types from geolocation
 export * from './geolocation';
 
+// Rexport all from 'injection-tokens.d.ts';
+export * from './injection-tokens'
+
 // Additional composite types and interfaces
 
 /**
