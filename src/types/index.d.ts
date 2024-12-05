@@ -11,7 +11,7 @@ export * from './synchronization';
 
 // Re-export all types from geolocation
 export * from './geolocation';
-
+export * from './time-dilation';
 // Rexport all from 'injection-tokens.d.ts';
 export * from './injection-tokens'
 
