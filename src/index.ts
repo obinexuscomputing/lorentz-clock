@@ -13,4 +13,4 @@ export { GeoUtilsService, type IGeoUtilsService } from './geolocation/geo-utils'
 export { GeolocationServiceError } from './geolocation/errors';
 
 // Type exports
-export * from './types/index.d'
+export * from './types'

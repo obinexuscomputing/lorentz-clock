@@ -2,13 +2,17 @@
  * Core type definitions for relativistic calculations and transformations
  */
 
-export declare namespace Physics {
-    /**
-     * Standard SI units for physical quantities
-     */
+/**
+ * Namespace containing standard SI units and physical quantities
+ */
+export namespace Physics {
     export type MetersPerSecond = number;
     export type Seconds = number;
     export type Radians = number;
+    
+    export const SPEED_OF_LIGHT = 299792458;  // meters per second
+    export const GRAVITATIONAL_CONSTANT = 6.67430e-11;  // m³/kg/s²
+    export const PLANCK_CONSTANT = 6.62607015e-34;  // joule-seconds
 }
 
 /**
@@ -73,12 +77,3 @@ export interface CalculationOptions {
     usePreciseFormulas?: boolean;  // Use more computationally intensive but precise formulas
     throwOnInvalid?: boolean; // Whether to throw errors on invalid inputs
 }
-
-/**
- * Constants used in relativistic calculations
- */
-export const Physics = {
-    SPEED_OF_LIGHT: 299792458,
-    GRAVITATIONAL_CONSTANT: 6.67430e-11,
-    PLANCK_CONSTANT: 6.62607015e-34
-} as const;

@@ -1,9 +1,15 @@
+/**
+ * Main type definitions export file
+ */
+
 import { CalculationOptions, ReferenceFrame } from './core';
 import { GeolocationOptions } from './geolocation';
+import { ServiceTypes } from './injection-tokens';
 
 // Re-export all types
 export * from './core';
 export * from './geolocation';
+export * from './injection-tokens';
 
 /**
  * Main configuration for the Lorentz Clock system
@@ -55,12 +61,12 @@ export type TimeFormat = 'unix' | 'iso8601' | 'relative';
 export type EventType = 'sync' | 'drift' | 'position' | 'error' | 'config';
 
 /**
- * Event handler function type
+ * Generic event handler function type
  */
 export type EventHandler<T = unknown> = (data: T) => void;
 
 /**
- * Version information
+ * Version information structure
  */
 export interface Version {
     major: number;
