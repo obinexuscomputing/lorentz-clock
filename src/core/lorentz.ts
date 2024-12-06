@@ -1,5 +1,18 @@
 import { RelativeVelocity, LorentzFactor } from '../types/core';
 
+
+function calculateSqrt(N) {
+    if (N === 0n) return 0n;
+    let n1 = (N >> 1n) + 1n;
+    let n2 = (n1 + (N / n1)) >> 1n;
+
+    while (n2 < n1) {
+        n1 = n2;
+        n2 = (n1 + (N / n1)) >> 1n;
+    }
+
+    return n1;
+}
 /**
  * Physical constants used in relativistic calculations
  */
